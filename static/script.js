@@ -15,7 +15,6 @@ async function scanURL() {
         return;
     }
 
-    // auto-fix missing protocol
     if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "https://" + url;
     }
@@ -24,7 +23,7 @@ async function scanURL() {
     resultText.style.color = "yellow";
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/scan", {
+        const response = await fetch("/scan", {  
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -38,11 +37,9 @@ async function scanURL() {
 
         const data = await response.json();
 
-        // ✅ FINAL DISPLAY FORMAT YOU ASKED FOR
         resultText.innerText =
             `Safe: ${data.safe_percent}% | Malicious: ${data.malicious_percent}%`;
 
-        // color based on risk
         if (data.label === "Malicious") {
             resultText.style.color = "red";
         } else if (data.label === "Suspicious") {
@@ -51,7 +48,6 @@ async function scanURL() {
             resultText.style.color = "green";
         }
 
-        // reasons list
         reasonsList.innerHTML = "";
 
         if (!data.reasons || data.reasons.length === 0) {

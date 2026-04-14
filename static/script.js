@@ -23,7 +23,7 @@ async function scanURL() {
     resultText.style.color = "yellow";
 
     try {
-        const response = await fetch("/scan", {  
+        const response = await fetch("/scan", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
